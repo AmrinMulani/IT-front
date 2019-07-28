@@ -1,0 +1,54 @@
+<app-nav></app-nav>
+
+<div class="container background">
+    <div class="row p-1" style="text-align:left">
+        <div class="col-md-12">
+            <form #createIssueForm="ngForm" class="form">
+                <div class="form-group">
+                    <label style="font-style: bold">Title</label>
+                    <input type="text" name="issueTitle" [(ngModel)]="issueTitle" #title="ngModel" class="form-control"
+                        placeholder="Enter issue title">
+                </div>
+                <div [hidden]="title.valid || title.pristine" class="alert alert-danger">
+                    Title is required
+                </div>
+                <div class="form-group">
+                    <label style="font-style: bold">Description</label>
+                    <app-ngx-editor #title="ngModel" [placeholder]="'Enter text here...'" [spellcheck]="true"
+                        [(ngModel)]="description" name="description"></app-ngx-editor>
+                </div>
+                <div [hidden]="title.valid || title.pristine" class="alert alert-danger">
+                    Description is required
+                </div>
+
+                <div class="form-group">
+                    <label style="font-style: bold">Assign To</label>
+                    <select [(ngModel)]="assigneeId" #category="ngModel" name="assginee" class="form-control"
+                        id="Assgin">
+                        <option *ngFor="let name of assigneearray" [value]="name.userId">{{name.fullName}}
+                        </option>
+                    </select>
+                </div>
+                <div [hidden]="title.valid || title.pristine" class="alert alert-danger">
+                    Please assign it
+                </div>
+
+                <div class="form-group">
+                    <label style="font-style: bold">Attachment</label><br />
+                    <input type="file" (change)="onFileSelected($event)" required>
+
+                </div>
+                <div [hidden]="title.valid || title.pristine" class="alert alert-danger">
+                    Please assign it
+                </div>
+
+                <div style="display: flex; justify-content: space-between">
+                    <button type="submit" class="btn btn-danger " [routerLink]="['/dashboard']">
+                        Cancel</button>
+                    <button type="submit" (click)="submitIssue()" class="btn btn-success "
+                        [disabled]="!createIssueForm.form.valid">Submit </button>
+                </div>
+            </form>
+        </div>
+    </div>
+</div>

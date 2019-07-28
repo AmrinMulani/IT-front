@@ -1,0 +1,27 @@
+<app-nav></app-nav>
+<div class="container">
+
+    <table datatable [dtOptions]="dtOptions" class="table ttable-sm able-bordered table-striped table-responsive">
+        <thead>
+            <tr class="table-secondary">
+                <th>Title</th>
+                <th>Status</th>
+                <th>Assignee</th>
+                <th>Created On</th>
+            </tr>
+        </thead>
+        <tbody *ngIf="issues?.length != 0">
+            <tr *ngFor="let inc of issues" (click)="issueSelected(inc.issueId)" class="cursorPointer">
+                <td>{{ inc.title }}</td>
+                <td>{{ inc.status }}</td>
+                <td>{{ inc.assignee }}</td>
+                <td>{{ inc.createdOn | date : 'medium' }}</td>
+            </tr>
+        </tbody>
+        <tbody *ngIf="issues?.length ===0">
+            <tr>
+                <td colspan="4" class="no-data-available">No data!</td>
+            </tr>
+        <tbody>
+    </table>
+</div>

@@ -1,0 +1,8 @@
+/* You can add global styles to this file, and also import other style files */
+
+.dataTables_empty {
+  display: none;
+}
+.cursorPointer {
+  cursor: pointer;
+}

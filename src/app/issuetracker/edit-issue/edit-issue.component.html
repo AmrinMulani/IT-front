@@ -1,0 +1,113 @@
+<app-nav></app-nav>
+<div class="container">
+    <form #updateForm="ngForm" class="form">
+        <div class="form-row">
+            <div class="form-group col-md-8">
+                <label style="font-style: bold">Title</label>
+                <input type="text" name="issueTitle" [(ngModel)]="issueTitle" #title="ngModel" class="form-control"
+                    readonly>
+            </div>
+            <div class="form-group col-md-4">
+                <button type="submit" class="btn btn-secondary pull-right" [disabled]="!updateForm.dirty ||
+                     !updateForm.valid" (click)="updateIssue()">Update Issue</button>
+            </div>
+        </div>
+
+        <div class="form-row form-group">
+            <label style="font-style: bold">Description</label>
+            <app-ngx-editor #title="ngModel" [spellcheck]="true" [(ngModel)]="description" name="description" required>
+            </app-ngx-editor>
+        </div>
+
+
+        <div class="form-row form-group ">
+
+
+            <div class="form-group col-md-6">
+                <div class="form-row">
+                    <label style="font-style: bold">Reporter</label>
+                    <input type="text" name="reporter" [(ngModel)]="reporter" #title="ngModel" class="form-control"
+                        readonly>
+                </div>
+
+
+                <div class="form-row">
+                    <label style="font-style: bold">Assign To</label>
+                    <select [(ngModel)]="assigneeId" #category="ngModel" name="assigneeId" class="form-control"
+                        (change)="setAssigneeName($event)" id="Assgin" required>
+                        <option *ngFor="let name of assigneearray" [value]="name.userId">{{name.fullName}}
+                        </option>
+                    </select>
+
+                </div>
+                <div class="form-row">
+                    <label style="font-style: bold">Status </label>
+                    <select [(ngModel)]="status" #category="ngModel" name="status" class="form-control" id="status"
+                        required>
+                        <option *ngFor="let stat of allStatus" [value]="stat">{{stat}}
+                        </option>
+                    </select>
+                </div>
+            </div>
+            <div class="form-group col-md-6" *ngIf="imageUrl">
+                <label style="font-style: bold">Screenshot </label><br />
+                <img [src]="imageUrl" width="60%" class="centre img-thumbnail img-responsive" alt="No image present">
+            </div>
+        </div>
+    </form>
+</div>
+<div class="container  justify-content-center">
+
+    <tabset>
+        <tab heading="Comment" id="tab1">
+            <br />
+
+            <div *ngIf="commentList.length>0">
+
+                <div #scrollMe [scrollTop]="(scrollToCommentTop)?0:scrollMe.scrollHeight" class="list-group comments">
+                    <div class="p-0 list-group-item cursorPointer text-center">
+                        <span (click)="loadEarlierComments()">Load Previous Comments</span>
+                        <br />
+                        <span *ngIf=" loadingPreviousChat==true">Loading...</span></div>
+
+                    <div class="media text-muted pt-3" *ngFor="let post of commentList">
+                        <p class="media-body pb-3 mb-0 small lh-125 border-bottom border-gray">
+                            <strong class="pull-right">{{post.createdOn |date:'medium'}}</strong><b>{{post.comment}}</b>
+                            by
+                            <b>{{post.commenterName }}</b>
+                        </p>
+
+
+                    </div><br />
+
+
+                </div>
+            </div>
+            <div class="form-row">
+                <div class="form-group col-md-8">
+
+                    <textarea [(ngModel)]="comment" #commentBox="ngModel" class="form-control"
+                        [placeholder]="'Write your comment..'"></textarea>
+                </div>
+                <div class="form-group col-md-4">
+                    <button type="submit" class="btn btn-secondary pull-left" (click)="addComment()"
+                        [disabled]="!commentBox.dirty ||!commentBox.valid">Post Comment</button>
+                </div>
+            </div>
+        </tab>
+        <tab heading="Wacher List">
+            <br />
+            <button type="submit" class="btn btn-secondary pull-left" *ngIf="currentUserId !== reporterId && !watchee"
+                (click)="addWatchee()">Add Watcher</button><br /><br />
+            <div class="media text-muted pt-3" *ngFor="let watchee of watcherArray">
+                <p class="media-body pb-3 mb-0 small lh-125 border-bottom border-gray">
+                    <strong class="pull-right">{{watchee.createdOn |date:'medium'}}</strong>
+                    <b>{{watchee.watcherName }}</b>
+                </p>
+            </div>
+
+        </tab>
+
+    </tabset>
+
+</div>

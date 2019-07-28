@@ -1,0 +1,32 @@
+<app-nav></app-nav>
+<div class="container">
+    <div style="text-align: center">
+        <button type="button" class="btn btn-primary mb-2" (click)="createIssue()"><i
+                class="fa fa-plus-circle mr-2"></i>
+            Log New Issue!</button>
+    </div>
+
+    <table datatable [dtOptions]="dtOptions" class="table table-sm able-bordered table-striped table-responsive">
+        <thead>
+            <tr class="table-secondary">
+                <th>Title</th>
+                <th>Status</th>
+                <th>Reporter</th>
+                <th>Created On</th>
+            </tr>
+        </thead>
+        <tbody *ngIf="issues?.length != 0">
+            <tr *ngFor="let inc of issues" (click)="issueSelected(inc.issueId)" class="cursorPointer">
+                <td>{{ inc.title }}</td>
+                <td>{{ inc.status }}</td>
+                <td>{{ inc.reporter }}</td>
+                <td>{{ inc.createdOn | date : 'medium' }}</td>
+            </tr>
+        </tbody>
+        <tbody *ngIf="issues?.length ===0">
+            <tr>
+                <td colspan="4" class="no-data-available">No data!</td>
+            </tr>
+        <tbody>
+    </table>
+</div>
